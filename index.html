@@ -1,49 +1,176 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
-    <title>Document</title>
+    <title>Quiz</title>
 </head>
-<body class="w-screen" style="background-image: url(./leaves-3923413_1920.jpg);">
-    <div class="m-16 bg-gray-300 text-center opacity-90 rounded border-black border border-dotted">
-        <h1 class="text-6xl pt-10 pb-4 bg-gray-100 rounded">Find your ideal travel destination</h1>
-        <h2 class="text-5xl pb-8 pt-2 text-gray-800">A quiz to find your ideal travel destination</h2>
-        <div>
-            <p class="text-3xl pb-6">Answer these questions to find out where you should travel</p>
-            <button class="bg-gray-800 text-3xl p-2 mb-6 rounded text-white hover:scale-110 hover:bg-gray-700 focus:outline focus:bg-gray-700" type="submit">Start Quiz</button>
-        </div>
+<body>
 
 
-
-    </div>
-
-    <!--  Question content  -->
-
-    <div class="m-16 bg-gray-300 text-center opacity-90 rounded">
-        <h1 class="text-5xl p-8">Question 1.</h1>
-        <h2 class="text-4xl pb-2">What type of scenery do you prefer?</h2>
-        <div class="">
-        <form class="flex flex-col gap-4 text-3xl p-4">
-        <label for="beaches">
-            <input id="beaches"  type="radio"> Beaches</input>
-        </label>
-        <label for="mountains">
-            <input id="mountains" type="radio"> Mountains</input>
-        </label>
-        <label for="urban-skylines">
-            <input id="urban-skylines" type="radio"> Urban Skylines</input>
-        </label>
-        <label>
-            <input type="radio"> Countryside</input>
-        </label>
-        </form>
-        </div>
-
-
-
-    </div>
+    <div class="bg-gray-600 h-screen w-3/4 text-center p-10"> 
+        <h1 class="text-7xl p-6">Geography Quiz</h1>
+        <div  class="">
+            <h2 class="text-4xl" id="question">Question goes here</h2>
+            <div  id="answer-buttons" class="flex flex-col gap-6 pt-5 text-4xl">
+                <button class="btn">Answer One</button>
+                <button class="btn">Answer Two</button>
+                <button class="btn">Answer Three</button>
+                <button class="btn">Answer Four</button>
+            </div>
+            <button class="text-center" id="next-button">Next</button>
     
+        </div>
+
+
+
+    </div>
+
+    <script>
+        let questions = [
+    {
+        question: "Which of the following mountain ranges is the highest in the world?",
+        answers: [
+            { text: "Rocky Mountains", correct: false },
+            { text: "Andes Mountains", correct: false },
+            { text: "Himalayan Mountains", correct: true },
+            { text: "Alps", correct: false }
+        ]
+    },
+    {
+        question: "Question: What is the capital city of Australia?",
+        answers: [
+            { text: "Sydney", correct: false },
+            { text: "Melbourne", correct: false },
+            { text: "Canberra", correct: true },
+            { text: "Brisbane", correct: false }
+        ]
+    },
+    {
+        question: "Which river is the longest in the world?",
+        answers: [
+            { text: "Amazon River", correct: false },
+            { text: "Nile River", correct: true },
+            { text: "Yangtze River", correct: false },
+            { text: "Mississippi River", correct: false }
+        ]
+    },
+    {
+        question: "In which continent is the Sahara Desert located?",
+        answers: [
+            { text: "Africa", correct: true },
+            { text: "Asia", correct: false },
+            { text: "South America", correct: false },
+            { text: "Australia", correct: false }
+        ]
+    },
+    {
+        question: "What is the southernmost continent on Earth?",
+        answers: [
+            { text: "Africa", correct: false },
+            { text: "Antarctica", correct: true },
+            { text: "South America", correct: false },
+            { text: "Australia", correct: false }
+        ]
+    }, 
+];
+
+
+const questionElement = document.getElementById("question");
+const answerButton = document.getElementById("answer-buttons");
+const nextButton = document.getElementById("next-button");
+
+let currentQuestionIndex = 0; 
+let score = 0; 
+
+function startQuiz() {
+    currentQuestionIndex = 0; 
+    score = 0;
+    nextButton.innerText = "Next"; 
+    showQuestion();
+}; 
+function showQuestion(){
+
+    resetState()
+
+
+    let currentQuestion = questions[currentQuestionIndex];
+    let questionNo = currentQuestionIndex + 1;
+    questionElement.innerText = questionNo + ". " + currentQuestion.question; 
+
+
+    currentQuestion.answers.forEach(answer => {
+        const button = document.createElement("button");
+        button.innerHTML = answer.text; 
+        button.classList.add("btn");
+        answerButton.appendChild(button);
+        if(answer.correct) {
+            button.dataset.correct = answer.correct; 
+        }
+        button.addEventListener("click", selectAnswer)
+    });
+}
+
+function resetState() {
+    nextButton.style.display = "none";
+    while(answerButton.firstChild){ 
+        answerButton.removeChild(answerButton.firstChild);
+    }
+}
+
+function selectAnswer(e) {
+     // function that creates correct/ incorrect class names on answer button - may not need (other than score++ and others below)
+    const selectedBtn = e.target;
+    const isCorrect = selectedBtn.dataset.correct === "true"; 
+    if (isCorrect) {
+        selectedBtn.classList.add("correct");
+        score++;
+    } else {
+        selectedBtn.classList.add("incorrect"); 
+    }
+// could do without also - would like to keep the button.disabled part and NEED to keep the nextButton.style.display part
+    Array.from(answerButton.children).forEach(button => {
+        if(button.dataset.correct === "true") {
+            button.classList.add("correct");
+        }
+        button.disabled = true;
+    });
+    nextButton.style.display = "block";
+
+} 
+
+function showScore() {
+    resetState();
+    questionElement.innerText = `You Scored ${score} out of ${questions.length}!`;
+    nextButton.innerText = "Play Again";
+    nextButton.style.display = "block";
+}
+
+function handleNextButton() {
+    currentQuestionIndex++;
+    if(currentQuestionIndex < questions.length) {
+        showQuestion();
+    }else{
+        showScore();
+    }
+}
+
+nextButton.addEventListener("click", ()=>{
+    if(currentQuestionIndex < questions.length) {
+        handleNextButton();
+    } else {
+        startQuiz();
+    }
+})
+
+startQuiz();
+
+
+
+    </script>
+
 </body>
 </html>
