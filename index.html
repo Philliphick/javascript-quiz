@@ -1,176 +1,241 @@
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <title>Quiz</title>
 </head>
-<body>
+<body class="bg-gradient-to-tr from-red-400 to-yellow-600 h-screen flex items-center justify-center">
 
-
-    <div class="bg-gray-600 h-screen w-3/4 text-center p-10"> 
-        <h1 class="text-7xl p-6">Geography Quiz</h1>
-        <div  class="">
-            <h2 class="text-4xl" id="question">Question goes here</h2>
-            <div  id="answer-buttons" class="flex flex-col gap-6 pt-5 text-4xl">
-                <button class="btn">Answer One</button>
-                <button class="btn">Answer Two</button>
-                <button class="btn">Answer Three</button>
-                <button class="btn">Answer Four</button>
+    <div class="bg-gray-200 p-8 rounded-lg text-center">
+        <h1 class="text-4xl font-bold mb-6">Around the world in 10 questions</h1>
+       
+       
+        <form id="quiz-form" class="">
+            <div id="front-page" class="front-page">
+                <h2 class="">Click start to test your knowledge</h2>
+                <button type="button" class="btn mt-4 bg-gray-800 text-white rounded p-2 shadow-xl text-lg" id="start-button">Start</button>
             </div>
-            <button class="text-center" id="next-button">Next</button>
-    
-        </div>
 
-
-
+            <div id="question-container" class="hidden">
+                <p class="text-xl" id="question">Question goes here</p>
+            
+            <div id="answer-buttons" class="flex flex-col gap-4 mx-20 p-8">
+                <!-- Answer choices will be dynamically added here -->
+            </div>
+            <button type="button" class="btn mt-4 bg-gray-600 rounded p-2 shadow-lg text-lg" id="next-button">Next</button>
+            </div>
+        </form>
     </div>
 
     <script>
         let questions = [
+        
     {
-        question: "Which of the following mountain ranges is the highest in the world?",
+        question: "In which country would you find the ancient city of Petra?",
         answers: [
-            { text: "Rocky Mountains", correct: false },
-            { text: "Andes Mountains", correct: false },
-            { text: "Himalayan Mountains", correct: true },
-            { text: "Alps", correct: false }
+            { text: "Greece", correct: false },
+            { text: "Jordan", correct: true },
+            { text: "Egypt", correct: false },
+            { text: "Turkey", correct: false }
         ]
     },
     {
-        question: "Question: What is the capital city of Australia?",
+        question: "Which mountain range separates Europe from Asia?",
         answers: [
-            { text: "Sydney", correct: false },
-            { text: "Melbourne", correct: false },
-            { text: "Canberra", correct: true },
-            { text: "Brisbane", correct: false }
+            { text: "The Alps", correct: false },
+            { text: "The Himalayas", correct: false },
+            { text: "The Ural Mountains", correct: true },
+            { text: "The Rocky Mountains", correct: false }
         ]
     },
+    {
+        question: "What is the largest island in the Caribbean?",
+        answers: [
+            { text: "Jamaica", correct: false },
+            { text: "Puerto Rico", correct: false },
+            { text: "Cuba", correct: true },
+            { text: "Dominican Republic", correct: false }
+        ]
+    },
+    {
+        question: "What is the capital city of Iceland?",
+        answers: [
+            { text: "Reykjavik", correct: true },
+            { text: "Oslo", correct: false },
+            { text: "Helsinki", correct: false },
+            { text: "Copenhagen", correct: false }
+        ]
+    },
+    {
+        question: "Which African country is known as the 'Pearl of Africa'?",
+        answers: [
+            { text: "Kenya", correct: false },
+            { text: "Tanzania", correct: false },
+            { text: "Uganda", correct: true },
+            { text: "Ethiopia", correct: false }
+        ]
+    }, 
+    {
+        question: "What is the currency of Japan?",
+        answers: [
+            { text: "Won", correct: false },
+            { text: "Yuan", correct: false },
+            { text: "Yen", correct: true },
+            { text: "Ringgit", correct: false }
+        ]
+    }, 
+    {
+        question: "In which European city would you find the historic Acropolis?",
+        answers: [
+            { text: "Rome", correct: false },
+            { text: "Athens", correct: true },
+            { text: "Paris", correct: false },
+            { text: "Barcelona", correct: false }
+        ]
+    }, 
+    {
+        question: "Which U.S. state is known as the 'Sunshine State'?",
+        answers: [
+            { text: "California", correct: false },
+            { text: "Florida", correct: true },
+            { text: "Texas", correct: false },
+            { text: "Arizona", correct: false }
+        ]
+    }, 
+    {
+        question: "What is the official language of Brazil?",
+        answers: [
+            { text: "Spanish", correct: false },
+            { text: "Portuguese", correct: true },
+            { text: "French", correct: false },
+            { text: "Italian", correct: false }
+        ]
+    }, 
     {
         question: "Which river is the longest in the world?",
         answers: [
-            { text: "Amazon River", correct: false },
             { text: "Nile River", correct: true },
+            { text: "Amazon River", correct: false },
             { text: "Yangtze River", correct: false },
             { text: "Mississippi River", correct: false }
-        ]
-    },
-    {
-        question: "In which continent is the Sahara Desert located?",
-        answers: [
-            { text: "Africa", correct: true },
-            { text: "Asia", correct: false },
-            { text: "South America", correct: false },
-            { text: "Australia", correct: false }
-        ]
-    },
-    {
-        question: "What is the southernmost continent on Earth?",
-        answers: [
-            { text: "Africa", correct: false },
-            { text: "Antarctica", correct: true },
-            { text: "South America", correct: false },
-            { text: "Australia", correct: false }
         ]
     }, 
 ];
 
+        const questionElement = document.getElementById("question");
+        const answerButtonContainer = document.getElementById("answer-buttons");
+        const nextButton = document.getElementById("next-button");
+        const quizForm = document.getElementById("quiz-form");
+        const frontPage = document.getElementById("front-page");
+        const questionContainer = document.getElementById("question-container");
 
-const questionElement = document.getElementById("question");
-const answerButton = document.getElementById("answer-buttons");
-const nextButton = document.getElementById("next-button");
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let onFrontPage = true;
 
-let currentQuestionIndex = 0; 
-let score = 0; 
+        
+        function startQuiz() {
 
-function startQuiz() {
-    currentQuestionIndex = 0; 
-    score = 0;
-    nextButton.innerText = "Next"; 
-    showQuestion();
-}; 
-function showQuestion(){
+            if (onFrontPage) {
+        frontPage.classList.remove("hidden");
+        questionContainer.classList.add("hidden");
+        } else {
+        frontPage.classList.add("hidden");
+        questionContainer.classList.remove("hidden");
+         }
+            
+            
+            currentQuestionIndex = 0;
+            score = 0;    
+            nextButton.innerText = "Next";
 
-    resetState()
-
-
-    let currentQuestion = questions[currentQuestionIndex];
-    let questionNo = currentQuestionIndex + 1;
-    questionElement.innerText = questionNo + ". " + currentQuestion.question; 
-
-
-    currentQuestion.answers.forEach(answer => {
-        const button = document.createElement("button");
-        button.innerHTML = answer.text; 
-        button.classList.add("btn");
-        answerButton.appendChild(button);
-        if(answer.correct) {
-            button.dataset.correct = answer.correct; 
+            // replace with a starting screen? 
+            showQuestion();
         }
-        button.addEventListener("click", selectAnswer)
-    });
-}
 
-function resetState() {
-    nextButton.style.display = "none";
-    while(answerButton.firstChild){ 
-        answerButton.removeChild(answerButton.firstChild);
-    }
-}
 
-function selectAnswer(e) {
-     // function that creates correct/ incorrect class names on answer button - may not need (other than score++ and others below)
-    const selectedBtn = e.target;
-    const isCorrect = selectedBtn.dataset.correct === "true"; 
-    if (isCorrect) {
-        selectedBtn.classList.add("correct");
-        score++;
-    } else {
-        selectedBtn.classList.add("incorrect"); 
-    }
-// could do without also - would like to keep the button.disabled part and NEED to keep the nextButton.style.display part
-    Array.from(answerButton.children).forEach(button => {
-        if(button.dataset.correct === "true") {
-            button.classList.add("correct");
+        function showQuestion() {
+            resetState();
+
+            let currentQuestion = questions[currentQuestionIndex];
+            let questionNo = currentQuestionIndex + 1;
+            questionElement.innerText = questionNo + ". " + currentQuestion.question;
+
+            currentQuestion.answers.forEach((answer, index) => {
+                const radioLabel = document.createElement("label");
+                radioLabel.classList.add("inline-flex", "items-center", "mb-2");
+
+                const radioInput = document.createElement("input");
+                radioInput.type = "radio";
+                radioInput.name = "answer";
+                radioInput.value = index;
+                radioInput.classList.add("mr-2");
+                
+                const radioText = document.createElement("span");
+                radioText.innerText = answer.text;
+
+                radioLabel.appendChild(radioInput);
+                radioLabel.appendChild(radioText);
+                answerButtonContainer.appendChild(radioLabel);
+            });
         }
-        button.disabled = true;
-    });
-    nextButton.style.display = "block";
+// 
+        function resetState() {
+            while (answerButtonContainer.firstChild) {
+                answerButtonContainer.removeChild(answerButtonContainer.firstChild);
+            }
 
-} 
+        }
 
-function showScore() {
-    resetState();
-    questionElement.innerText = `You Scored ${score} out of ${questions.length}!`;
-    nextButton.innerText = "Play Again";
-    nextButton.style.display = "block";
-}
+        function selectAnswer() {
+            // return the first input element with name="answer" that is checked and assign it to selectedRadio
+            const selectedRadio = document.querySelector('input[name="answer"]:checked');
+            if (selectedRadio) {
+                const selectedAnswerIndex = parseInt(selectedRadio.value);
+                const isCorrect = questions[currentQuestionIndex].answers[selectedAnswerIndex].correct;
 
-function handleNextButton() {
-    currentQuestionIndex++;
-    if(currentQuestionIndex < questions.length) {
-        showQuestion();
-    }else{
-        showScore();
-    }
-}
+                if (isCorrect) {
+                    score++;
+                }
+            }
+        }
 
-nextButton.addEventListener("click", ()=>{
-    if(currentQuestionIndex < questions.length) {
-        handleNextButton();
-    } else {
+        function showScore() {
+            resetState();
+            questionElement.innerText = `You Scored ${score} out of ${questions.length}!`;
+            nextButton.innerText = "Play Again";
+        }
+
+        function handleNextButton() {
+            selectAnswer();
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions.length) {
+                showQuestion();
+            } else {
+                showScore();
+            }
+        }
+
+        nextButton.addEventListener("click", () => {
+            if (currentQuestionIndex < questions.length) {
+                handleNextButton();
+            } else {
+                startQuiz();
+            }
+        });
+
+        quizForm.addEventListener("submit", function (e) {
+            e.preventDefault();
+            handleNextButton();
+        });
+
+        document.getElementById("start-button").addEventListener("click", () => {
+        onFrontPage = false;
         startQuiz();
-    }
-})
-
-startQuiz();
-
-
-
+    });
     </script>
-
 </body>
 </html>
