@@ -5,9 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+ 
     <title>Quiz</title>
 </head>
-<body class="bg-gradient-to-tr from-red-400 to-yellow-600 h-screen flex items-center justify-center">
+<body class="bg-gradient-to-tr from-red-300 to-yellow-500 h-screen flex items-center justify-center">
 
     <div class="bg-gray-200 p-8 rounded-lg text-center">
         <h1 class="text-4xl font-bold mb-6">Around the world in 10 questions</h1>
@@ -15,17 +16,17 @@
        
         <form id="quiz-form" class="">
             <div id="front-page" class="front-page">
-                <h2 class="">Click start to test your knowledge</h2>
-                <button type="button" class="btn mt-4 bg-gray-800 text-white rounded p-2 shadow-xl text-lg" id="start-button">Start</button>
+                <h2 class="text-2xl">Click <span class="font-bold">START</span> to test your knowledge of the world</h2>
+                <button type="button" class="btn mt-4 bg-gray-800 text-white rounded p-2 text-xl" id="start-button">START</button>
             </div>
 
             <div id="question-container" class="hidden">
-                <p class="text-xl" id="question">Question goes here</p>
+                <p class="text-3xl pb-4" id="question">Question goes here</p>
             
-            <div id="answer-buttons" class="flex flex-col gap-4 mx-20 p-8">
+            <div id="answer-buttons" class="flex flex-col text-xl">
                 <!-- Answer choices will be dynamically added here -->
             </div>
-            <button type="button" class="btn mt-4 bg-gray-600 rounded p-2 shadow-lg text-lg" id="next-button">Next</button>
+            <button type="button" class="btn mt-4 bg-gray-800 text-white rounded p-2 shadow-lg text-xl" id="next-button">Next</button>
             </div>
         </form>
     </div>
@@ -165,13 +166,16 @@
 
             currentQuestion.answers.forEach((answer, index) => {
                 const radioLabel = document.createElement("label");
-                radioLabel.classList.add("inline-flex", "items-center", "mb-2");
+                radioLabel.classList.add("flex", "flex-center", "my-2", "mx-24", "border", "border-gray-500", "rounded", "p-2",
+                "hover:bg-yellow-600", "active:bg-yellow");
 
                 const radioInput = document.createElement("input");
                 radioInput.type = "radio";
                 radioInput.name = "answer";
                 radioInput.value = index;
+                radioInput.label = ""
                 radioInput.classList.add("mr-2");
+
                 
                 const radioText = document.createElement("span");
                 radioText.innerText = answer.text;
