@@ -1,37 +1,50 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="index.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Josefin+Sans&display=swap" rel="stylesheet">
+
+    
  
     <title>Quiz</title>
 </head>
 <body class="bg-gradient-to-tr from-red-300 to-yellow-500 h-screen flex items-center justify-center">
 
+
+    <div class="bg-gray-300 p-5 rounded-2xl">
     <div class="bg-gray-200 p-8 rounded-lg text-center">
-        <h1 class="text-4xl font-bold mb-6">Around the world in 10 questions</h1>
+        <h1 class="text-6xl font-bold m-4" style="font-family: Bebas Neue, sans-serif;">Around the world in 10 questions</h1>
        
        
-        <form id="quiz-form" class="">
+        <form id="quiz-form">
+            
+            
             <div id="front-page" class="front-page">
-                <h2 class="text-2xl">Click <span class="font-bold">START</span> to test your knowledge of the world</h2>
-                <button type="button" class="btn mt-4 bg-gray-800 text-white rounded p-2 text-xl" id="start-button">START</button>
+                <h2 class="text-3xl p-2" style="font-family: Josefin Sans, sans-serif;">Click <span class="font-bold">START</span> to test your knowledge of the world</h2>
+                <button type="button" class="btn mt-6 bg-gray-800 text-white rounded-md py-2 px-3 text-3xl hover:bg-yellow-600" style="font-family: Bebas Neue, sans-serif; letter-spacing: .1rem;" id="start-button">START</button>
             </div>
+            
 
             <div id="question-container" class="hidden">
-                <p class="text-3xl pb-4" id="question">Question goes here</p>
+                <p class="text-3xl p-4" style="font-family: Josefin Sans;" id="question">Question goes here</p>
             
-            <div id="answer-buttons" class="flex flex-col text-xl">
+            <div id="answer-buttons" class="flex flex-col text-2xl" style="font-family: Josefin Sans;">
                 <!-- Answer choices will be dynamically added here -->
             </div>
-            <button type="button" class="btn mt-4 bg-gray-800 text-white rounded p-2 shadow-lg text-xl" id="next-button">Next</button>
+            <button type="button" class="btn mt-6 bg-gray-800 text-white rounded-md py-2 px-3 shadow-lg text-3xl hover:bg-yellow-600" style="font-family: Bebas Neue, sans-serif; letter-spacing: .1rem;" id="next-button">Next</button>
             </div>
+
+
+        
         </form>
     </div>
-
-    <script>
+    </div>
+<script>
         let questions = [
         
     {
@@ -166,7 +179,7 @@
 
             currentQuestion.answers.forEach((answer, index) => {
                 const radioLabel = document.createElement("label");
-                radioLabel.classList.add("flex", "flex-center", "my-2", "mx-24", "border", "border-gray-500", "rounded", "p-2",
+                radioLabel.classList.add("flex", "flex-center", "my-2", "mx-32", "border", "border-gray-500", "rounded", "p-2",
                 "hover:bg-yellow-600", "active:bg-yellow");
 
                 const radioInput = document.createElement("input");
@@ -240,5 +253,7 @@
         startQuiz();
     });
     </script>
+
+    
 </body>
 </html>
